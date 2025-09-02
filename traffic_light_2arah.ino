@@ -1,85 +1,111 @@
-int pinMerah1 = 8;
-int pinKuning1 = 9;
-int pinHijau1 = 10;
-int pinMerah2 = 5;
-int pinKuning2 = 6;
-int pinHijau2 = 7;
+// DEKLARASI : variabel, data, alamat pin
+
+int merah1 = 8;
+int kuning1 = 9;
+int hijau1 = 10;
+int merah2 = 5;
+int kuning2 = 6;
+int hijau2 = 7;
 
 
 void setup() {
-  // put your setup code here, to run once:
-  pinMode(pinMerah1, OUTPUT);
-  pinMode(pinKuning1, OUTPUT);
-  pinMode(pinHijau1, OUTPUT);
-  pinMode(pinMerah2, OUTPUT);
-  pinMode(pinKuning2, OUTPUT);
-  pinMode(pinHijau2, OUTPUT);
+  pinMode(merah1, OUTPUT);
+  pinMode(kuning1, OUTPUT);
+  pinMode(hijau1, OUTPUT);
+  pinMode(merah2, OUTPUT);
+  pinMode(kuning2, OUTPUT);
+  pinMode(hijau2, OUTPUT);
 
-  digitalWrite(pinMerah1, HIGH);
-  digitalWrite(pinMerah2, HIGH);
+  digitalWrite(merah1, HIGH);
+  digitalWrite(merah2, HIGH);
   delay(1000);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
 
-  // KUNING1 DAN MERAH 2 NYALA
-  digitalWrite(pinMerah1, LOW);
-  digitalWrite(pinKuning1, HIGH);
-  digitalWrite(pinHijau1, LOW);  
+  digitalWrite(merah1, LOW);
+  digitalWrite(kuning1, HIGH);
+  digitalWrite(hijau1, LOW);  
 
-  digitalWrite(pinMerah2, HIGH);
-  digitalWrite(pinKuning2, LOW);
-  digitalWrite(pinHijau2, LOW);  
+  digitalWrite(merah2, HIGH);
+  digitalWrite(kuning2, LOW);
+  digitalWrite(hijau2, LOW);  
   delay(1000);
   
-  // HIJAU1 DAN MERAH 2 NYALA
-  digitalWrite(pinMerah1, LOW);
-  digitalWrite(pinKuning1, LOW);
-  digitalWrite(pinHijau1, HIGH);  
+
+  digitalWrite(merah1, LOW);
+  digitalWrite(kuning1, LOW);
+  digitalWrite(hijau1, HIGH);  
   
-  digitalWrite(pinMerah2, HIGH);
-  digitalWrite(pinKuning2, LOW);
-  digitalWrite(pinHijau2, LOW);  
+  digitalWrite(merah2, HIGH);
+  digitalWrite(kuning2, LOW);
+  digitalWrite(hijau2, LOW);  
   delay(1000);
   
-  // KUNING1 DAN MERAH 2 NYALA
-  digitalWrite(pinMerah1, LOW);
-  digitalWrite(pinKuning1, HIGH);
-  digitalWrite(pinHijau1, LOW);  
+
+  digitalWrite(merah1, LOW);
+  digitalWrite(kuning1, LOW);
+  digitalWrite(hijau1, HIGH);  
   
-  digitalWrite(pinMerah2, HIGH);
-  digitalWrite(pinKuning2, LOW);
-  digitalWrite(pinHijau2, LOW);  
+  digitalWrite(merah2, HIGH);
+  digitalWrite(kuning2, LOW);
+  digitalWrite(hijau2, LOW);  
   delay(1000);
 
-  // MERAH1 NYALA DAN KUNING 2 NYALA
-  digitalWrite(pinMerah1, HIGH);
-  digitalWrite(pinKuning1, LOW);
-  digitalWrite(pinHijau1, LOW);  
 
-  digitalWrite(pinMerah2, LOW);
-  digitalWrite(pinKuning2, HIGH);
-  digitalWrite(pinHijau2, LOW);  
+  digitalWrite(merah1, LOW);
+  digitalWrite(kuning1, LOW);
+  digitalWrite(hijau1, HIGH);  
+
+  digitalWrite(merah2, HIGH);
+  digitalWrite(kuning2, LOW);
+  digitalWrite(hijau2, LOW);  
   delay(1000);
   
-  // MERAH1 NYALA DAN HIJAU 2 NYALA
-  digitalWrite(pinMerah1, HIGH);
-  digitalWrite(pinKuning1, LOW);
-  digitalWrite(pinHijau1, LOW);  
+
+  digitalWrite(merah1, LOW);
+  digitalWrite(kuning1, HIGH);
+  digitalWrite(hijau1, LOW);  
   
-  digitalWrite(pinMerah2, LOW);
-  digitalWrite(pinKuning2, LOW);
-  digitalWrite(pinHijau2, HIGH);  
+  digitalWrite(merah2, HIGH);
+  digitalWrite(kuning2, LOW);
+  digitalWrite(hijau2, LOW);  
   delay(1000);
   
-  // MERAH1 NYALA DAN KUNING 2 NYALA
-  digitalWrite(pinMerah1, HIGH);
-  digitalWrite(pinKuning1, LOW);
-  digitalWrite(pinHijau1, LOW);  
+
+  digitalWrite(merah1, HIGH);
+  digitalWrite(kuning1, LOW);
+  digitalWrite(hijau1, LOW);  
   
-  digitalWrite(pinMerah2, LOW);
-  digitalWrite(pinKuning2, HIGH);
-  digitalWrite(pinHijau2, LOW);  
+  digitalWrite(merah2, LOW);
+  digitalWrite(kuning2, HIGH);
+  digitalWrite(hijau2, LOW);  
+  delay(1000);
+
+  digitalWrite(merah1, HIGH);
+  digitalWrite(kuning1, LOW);
+  digitalWrite(hijau1, LOW);  
+  
+  digitalWrite(merah2, LOW);
+  digitalWrite(kuning2, LOW);
+  digitalWrite(hijau2, HIGH);  
+  delay(1000);
+
+  digitalWrite(merah1, HIGH);
+  digitalWrite(kuning1, LOW);
+  digitalWrite(hijau1, LOW);  
+  
+  digitalWrite(merah2, LOW);
+  digitalWrite(kuning2, LOW);
+  digitalWrite(hijau2, HIGH);  
+  delay(1000);
+
+  digitalWrite(merah1, HIGH);
+  digitalWrite(kuning1, LOW);
+  digitalWrite(hijau1, LOW);  
+  
+  digitalWrite(merah2, LOW);
+  digitalWrite(kuning2, HIGH);
+  digitalWrite(hijau2, LOW);  
   delay(1000);
 }
