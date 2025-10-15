@@ -16,7 +16,8 @@ void setup() {
   lcd.setCursor(0, 1); lcd.print("Arah : Naik ");
 }
 
-void updateLCD(int n, int arah, bool isPaused) {
+void updateLCD(int n, bool isPaused, uint8_t phase) {
+  // phase: 0=Naik, 1=Pause, 2=Turun, 3=Selesai
   if (n < 0) n = 0;
   if (n > 9999) n = 9999;
 
@@ -26,54 +27,71 @@ void updateLCD(int n, int arah, bool isPaused) {
   lcd.print(buf);
 
   lcd.setCursor(7, 1);
-  if (isPaused) lcd.print("PAUSE ");
-  else lcd.print(arah == 1 ? "Naik  " : "Turun ");
+  switch (phase) {
+    case 0: lcd.print("Arah : Naik  "); break;
+    case 1: lcd.print("Arah : PAUSE "); break;
+    case 2: lcd.print("Arah : Turun "); break;
+    case 3: lcd.print("Status: Seles"); break; // "Selesai" pas 16 kolom
+  }
 }
 
 void loop() {
   static int n = 0;
-  static int arah = 1; // 1=naik, -1=turun
   static unsigned long lastUpdate = 0;
   static unsigned long pauseStart = 0;
-  static bool isPaused = false;
+
+  // 0 = naik ke 60, 1 = pause di 60, 2 = turun ke 0, 3 = selesai
+  static uint8_t phase = 0;
+
+  // cache tampilan agar LCD tak sering di-update
   static int lastShown = -1;
-  static int lastArah = 1;
-  static bool lastPauseState = false;
+  static uint8_t lastPhase = 255;
 
-  int batas = MAX_N;
+  const int batas = MAX_N;
 
-  // Mode PAUSE
-  if (isPaused) {
-    if (millis() - pauseStart >= PAUSE_DELAY) {
-      isPaused = false;
-      lastUpdate = millis();
-    }
-  }
-  else {
-    if (millis() - lastUpdate >= UPDATE_INTERVAL) {
-      n += arah;
-
-      if (n >= batas) {
-        n = batas;
-        arah = -1;
-        isPaused = true;
-        pauseStart = millis();
-      } else if (n <= 0) {
-        n = 0;
-        arah = 1;
-        isPaused = true;
-        pauseStart = millis();
+  switch (phase) {
+    case 0: // NAik 0 -> 60
+      if (millis() - lastUpdate >= UPDATE_INTERVAL) {
+        if (n < batas) {
+          n++;
+          if (n >= batas) {
+            n = batas;
+            phase = 1;                 // masuk jeda
+            pauseStart = millis();
+          }
+        }
+        lastUpdate = millis();
       }
+      break;
 
-      lastUpdate = millis();
-    }
+    case 1: // PAUSE di 60
+      if (millis() - pauseStart >= PAUSE_DELAY) {
+        phase = 2;                     // lanjut TURUN
+        lastUpdate = millis();
+      }
+      break;
+
+    case 2: // TURUN 60 -> 0
+      if (millis() - lastUpdate >= UPDATE_INTERVAL) {
+        if (n > 0) {
+          n--;
+          if (n <= 0) {
+            n = 0;
+            phase = 3;                 // SELESAI
+          }
+        }
+        lastUpdate = millis();
+      }
+      break;
+
+    case 3: // SELESAI: tetap tampilkan 0, tidak counting lagi
+      break;
   }
 
   // Update LCD hanya jika berubah
-  if (n != lastShown || arah != lastArah || isPaused != lastPauseState) {
-    updateLCD(n, arah, isPaused);
+  if (n != lastShown || phase != lastPhase) {
+    updateLCD(n, phase == 1, phase);
     lastShown = n;
-    lastArah = arah;
-    lastPauseState = isPaused;
+    lastPhase = phase;
   }
 }
