@@ -30,7 +30,7 @@ byte angka[10][8] = {
   {0,0,0,0,1,0,0,1}  // 9
 };
 
-const unsigned long UPDATE_INTERVAL = 1000; // ms antar perubahan angka
+const unsigned long UPDATE_INTERVAL = 200; // ms antar perubahan angka
 const unsigned long PAUSE_DELAY = 3000;    // jeda 3 detik saat ganti arah
 const int MAX_N = 60;
 const bool LEADING_ZERO = true;
