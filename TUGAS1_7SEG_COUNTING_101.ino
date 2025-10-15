@@ -30,7 +30,7 @@ byte angka[10][8] = {
   {0,0,0,0,1,0,0,1}  // 9
 };
 
-const unsigned long UPDATE_INTERVAL = 500; // ms antar perubahan angka
+const unsigned long UPDATE_INTERVAL = 1000; // ms antar perubahan angka
 const unsigned long PAUSE_DELAY = 3000;    // jeda 3 detik saat ganti arah
 const int MAX_N = 60;
 const bool LEADING_ZERO = true;
@@ -84,35 +84,54 @@ void displayNumber(int n, bool leadingZero) {
 // ================== Loop utama ==================
 void loop() {
   static int n = 0;
-  static int arah = 1;
   static unsigned long lastUpdate = 0;
   static unsigned long pauseStart = 0;
-  static bool isPaused = false;
 
-  int batas = MAX_N;
+  // 0 = naik ke 60s
+  // 1 = pause di 60
+  // 2 = turun ke 0
+  // 3 = selesai (tampil 0 terus, tidak update lagi)
+  static uint8_t phase = 0;
 
-  if (isPaused) {
-    if (millis() - pauseStart >= PAUSE_DELAY) {
-      isPaused = false;
-      lastUpdate = millis();
-    }
-  } else {
-    if (millis() - lastUpdate >= UPDATE_INTERVAL) {
-      n += arah;
+  const int batas = MAX_N;
 
-      if (n >= batas) {
-        n = batas;
-        arah = -1;
-        isPaused = true;
-        pauseStart = millis();
-      } else if (n <= 0) {
-        n = 0;
-        arah = 1;
-        isPaused = true;
-        pauseStart = millis();
+  switch (phase) {
+    case 0: // naik
+      if (millis() - lastUpdate >= UPDATE_INTERVAL) {
+        if (n < batas) {
+          n++;
+          if (n >= batas) {
+            n = batas;
+            phase = 1;                 // masuk fase pause
+            pauseStart = millis();
+          }
+        }
+        lastUpdate = millis();
       }
-      lastUpdate = millis();
-    }
+      break;
+
+    case 1: // pause di 60
+      if (millis() - pauseStart >= PAUSE_DELAY) {
+        phase = 2;                     // lanjut turun
+        lastUpdate = millis();
+      }
+      break;
+
+    case 2: // turun
+      if (millis() - lastUpdate >= UPDATE_INTERVAL) {
+        if (n > 0) {
+          n--;
+          if (n <= 0) {
+            n = 0;
+            phase = 3;                 // selesai, stop counting
+          }
+        }
+        lastUpdate = millis();
+      }
+      break;
+
+    case 3: // selesai (do nothing; tetap tampilkan 0)
+      break;
   }
 
   displayNumber(n, LEADING_ZERO);
